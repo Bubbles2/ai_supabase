@@ -4,6 +4,7 @@ import { Upload, MessageSquare, FileText, Sparkles, ZoomIn, ZoomOut, Highlighter
 import FileUpload from './components/FileUpload';
 import ChatWindow from './components/ChatWindow';
 import DropdownMenu from './components/DropdownMenu';
+import HistoryComponent from './components/HistoryComponent';
 import robo from './assets/robo3.png';
 import './App.css';
 
@@ -72,9 +73,8 @@ function App() {
         )}
 
         {currentView === 'history' && (
-          <div className="history-view">
-            <h2>History</h2>
-            <p>Chat history coming soon...</p>
+          <div className="history-view" style={{ width: '100%', height: '100%' }}>
+            <HistoryComponent />
           </div>
         )}
       </main>

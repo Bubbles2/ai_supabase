@@ -7,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const { PDFParse } = require('pdf-parse');
 const { initializeVectorStore, chat } = require('./rag');
+const { saveUpload, getUploads } = require('./db');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -53,6 +54,9 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
         await initializeVectorStore(data.text);
         isReady = true;
 
+        // Save metadata to Supabase
+        await saveUpload(req.file.originalname, 'PDF Document');
+
         // Cleanup uploaded file
         fs.unlinkSync(filePath);
 
@@ -79,6 +83,16 @@ app.post('/api/chat', async (req, res) => {
     } catch (error) {
         console.error('Chat error:', error);
         res.status(500).json({ error: 'Error generating answer' });
+    }
+});
+
+app.get('/api/history', async (req, res) => {
+    try {
+        const uploads = await getUploads();
+        res.json(uploads);
+    } catch (error) {
+        console.error('Error fetching history:', error);
+        res.status(500).json({ error: 'Error fetching history' });
     }
 });
 

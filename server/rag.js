@@ -1,5 +1,5 @@
 const { SupabaseVectorStore } = require("@langchain/community/vectorstores/supabase");
-const { createClient } = require("@supabase/supabase-js");
+const supabase = require('./supabaseClient');
 const { OpenAIEmbeddings, ChatOpenAI } = require("@langchain/openai");
 const { ChatPromptTemplate } = require("@langchain/core/prompts");
 const { StringOutputParser } = require("@langchain/core/output_parsers");
@@ -24,10 +24,7 @@ const initializeVectorStore = async (text) => {
     const splitDocs = splitText(text);
     const embeddings = new OpenAIEmbeddings();
 
-    const client = createClient(
-        process.env.SUPABASE_URL,
-        process.env.SUPABASE_PRIVATE_KEY
-    );
+    const client = supabase;
 
     // Store documents in Supabase
     vectorStore = await SupabaseVectorStore.fromDocuments(
@@ -46,12 +43,9 @@ const chat = async (question) => {
 
     // If vector store is not initialized in memory, try to connect to Supabase
     if (!store) {
-        const client = createClient(
-            process.env.SUPABASE_URL,
-            process.env.SUPABASE_PRIVATE_KEY
-        );
+        const client = supabase;
         const embeddings = new OpenAIEmbeddings();
-        
+
         store = new SupabaseVectorStore(embeddings, {
             client,
             tableName: "documents",

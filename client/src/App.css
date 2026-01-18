@@ -13,7 +13,8 @@
   flex: 1;
   display: flex;
   overflow: hidden;
-  padding: 0;
+  padding: 0 4rem;
+  /* Increased padding to create visible borders */
   gap: 3rem;
   max-width: 1400px;
   margin: 0 auto;
@@ -58,12 +59,14 @@
   font-weight: 700;
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 0;
 }
 
 .upload-view {
-  width: 100%;
+  width: 60%;
+  margin-right: 18rem;
   height: 100%;
   background-image: url('./assets/techback.png');
   background-size: cover;
@@ -76,17 +79,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  /* Changed from center to allow stacking */
+  padding: 3rem;
+  /* Add padding for content */
   position: relative;
 }
 
 .hero-text {
-  position: absolute;
-  top: 3rem;
-  left: 3rem;
+  position: relative;
+  width: 100%;
   text-align: left;
   z-index: 10;
-  max-width: 600px;
+  max-width: 800px;
+  align-self: flex-start;
+  margin-top: 1rem;
+}
+
+/* Ensure the upload container centers in the remaining space */
+.upload-view .upload-container {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .hero-text h2 {
